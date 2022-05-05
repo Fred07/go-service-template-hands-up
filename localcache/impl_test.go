@@ -41,11 +41,15 @@ func TestExpiredCacheGet(t *testing.T) {
 }
 
 func TestCacheSet(t *testing.T) {
+	timeNow = func() time.Time { return time.Unix(1629446406, 0) }
+
 	cache := cache{
 		data: make(map[string]item),
 	}
 	cache.Set(testKey, testVal)
 
 	actual := cache.data[testKey].val
+	actualLastMod := cache.data[testKey].lastMod
 	assert.Equal(t, testVal, actual)
+	assert.Equal(t, timeNow().Unix(), actualLastMod)
 }
