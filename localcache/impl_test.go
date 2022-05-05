@@ -8,35 +8,35 @@ import (
 )
 
 const (
-	TEST_KEY = "test_key"
-	TEST_VAL = "test_val"
+	testKey = "test_key"
+	testVal = "test_val"
 )
 
 func TestCacheGet(t *testing.T) {
-	lastAccess := time.Now().Unix() - (CACHE_EXPIRED_SEC - 1)
+	lastAccess := time.Now().Unix() - (cacheExpiredSec - 1)
 	cache := cache{
 		data: make(map[string]item),
 	}
-	cache.data[TEST_KEY] = item{
-		val:     TEST_VAL,
+	cache.data[testKey] = item{
+		val:     testVal,
 		lastMod: lastAccess,
 	}
 
-	actual := cache.Get(TEST_KEY)
-	assert.Equal(t, TEST_VAL, actual)
+	actual := cache.Get(testKey)
+	assert.Equal(t, testVal, actual)
 }
 
 func TestExpiredCacheGet(t *testing.T) {
-	lastAccess := time.Now().Unix() - (CACHE_EXPIRED_SEC + 1)
+	lastAccess := time.Now().Unix() - (cacheExpiredSec + 1)
 	cache := cache{
 		data: make(map[string]item),
 	}
-	cache.data[TEST_KEY] = item{
-		val:     TEST_VAL,
+	cache.data[testKey] = item{
+		val:     testVal,
 		lastMod: lastAccess,
 	}
 
-	actual := cache.Get(TEST_KEY)
+	actual := cache.Get(testKey)
 	assert.Nil(t, actual)
 }
 
@@ -44,8 +44,8 @@ func TestCacheSet(t *testing.T) {
 	cache := cache{
 		data: make(map[string]item),
 	}
-	cache.Set(TEST_KEY, TEST_VAL)
+	cache.Set(testKey, testVal)
 
-	actual := cache.data[TEST_KEY].val
-	assert.Equal(t, TEST_VAL, actual)
+	actual := cache.data[testKey].val
+	assert.Equal(t, testVal, actual)
 }
