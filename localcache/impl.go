@@ -4,8 +4,8 @@ package localcache
 import "time"
 
 const (
-	// CACHE_EXPIRED_SEC define expiration time of cache
-	CACHE_EXPIRED_SEC = 30
+	// cacheExpiredSec define expiration time of cache
+	cacheExpiredSec = 30
 )
 
 type item struct {
@@ -20,7 +20,7 @@ type cache struct {
 // Get cache data by key string
 func (c *cache) Get(key string) interface{} {
 	now := time.Now().Unix()
-	if data, ok := c.data[key]; ok && now-data.lastMod <= CACHE_EXPIRED_SEC {
+	if data, ok := c.data[key]; ok && now-data.lastMod <= cacheExpiredSec {
 		return data.val
 	}
 	return nil
